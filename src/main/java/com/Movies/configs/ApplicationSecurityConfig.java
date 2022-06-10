@@ -46,7 +46,9 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/api/director/insert","/api/director/update/**","/api/director/delete/**",
                         "/api/genre/insert","/api/genre/update/**","/api/genre/delete/**",
                         "/api/movies/create","/api/movies/update/**","/api/movies/delete/**",
-                        "/api/reviewer/delete/**","/api/movies/add-genre").hasAuthority("ROLE_ADMIN")
+                        "/api/reviewer/delete/**","/api/movies/add-genre","/api/remove-genre",
+                        "/api/movies/add-actor","/api/remove-actor","/api/movies/add-director",
+                        "/api/remove-director").hasAuthority("ROLE_ADMIN")
                 .antMatchers("/api/reviewer/complete-profile","/api/reviewer/rate-movie").hasAuthority("ROLE_REVIEWER")
                 .and()
                 .httpBasic()
