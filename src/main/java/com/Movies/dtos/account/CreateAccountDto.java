@@ -1,8 +1,10 @@
 package com.Movies.dtos.account;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 public class CreateAccountDto {
 
     private String username;

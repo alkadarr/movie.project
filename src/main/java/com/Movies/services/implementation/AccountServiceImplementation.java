@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AccountServiceImplementation implements AccountService {
@@ -75,5 +76,13 @@ public class AccountServiceImplementation implements AccountService {
                 user.getUsername(),
                 user.getRole(),
                 user.isEnabled() ? "Active" : "Inactive");
+    }
+
+    @Override
+    public String getAccountRole(String username) {
+        Optional<Account> nullableEntity = accountRepository.findByUsername(username);
+        Account account = nullableEntity.
+                orElseThrow(()->new EntityNotFoundException("username not found"));
+        return account.getRole();
     }
 }

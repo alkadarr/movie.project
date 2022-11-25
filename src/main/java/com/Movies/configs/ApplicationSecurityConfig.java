@@ -2,6 +2,8 @@ package com.Movies.configs;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -12,7 +14,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+@Configuration
 @EnableWebSecurity                      //WebSecurityConfiguration
+@Order(2)
 public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService userDetailsService;
@@ -34,25 +38,15 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/api/actor/all","/api/actor/get/**",
-                        "/api/director/all","/api/director/get/**",
-                        "/api/genre/all","/api/genre/get/**",
-                        "/api/movies/all","/api/movies/get/**",
-                        "/api/reviewer/all","api/reviewer/get/**",
-                        "/api/movies/get-by-genre").permitAll()
-                .antMatchers("/api/account/change-password").authenticated()
-                .antMatchers("/api/account/register","/api/account/all","/api/account/inactive-account/**",
-                        "/api/actor/insert","/api/actor/update/**","/api/actor/delete/**",
-                        "/api/director/insert","/api/director/update/**","/api/director/delete/**",
-                        "/api/genre/insert","/api/genre/update/**","/api/genre/delete/**",
-                        "/api/movies/create","/api/movies/update/**","/api/movies/delete/**",
-                        "/api/reviewer/delete/**","/api/movies/add-genre","/api/remove-genre",
-                        "/api/movies/add-actor","/api/remove-actor","/api/movies/add-director",
-                        "/api/remove-director").hasAuthority("ROLE_ADMIN")
-                .antMatchers("/api/reviewer/complete-profile","/api/reviewer/rate-movie").hasAuthority("ROLE_REVIEWER")
-                .and()
-                .httpBasic()
-                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                .antMatchers("/account/**","/resources/**").permitAll()
+//                .antMatchers("").hasAuthority("ROLE_ADMIN")
+//                .antMatchers("").hasAuthority("ROLE_REVIEWER")
+                .anyRequest().authenticated()
+                .and().formLogin()
+                .loginPage("/account/loginForm")
+                .loginProcessingUrl("/authenticating")
+                .and().logout()
+                .and().exceptionHandling().accessDeniedPage("/account/accessDenied");
     }
 
     @Bean

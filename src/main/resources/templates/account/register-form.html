@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="en">
+<head th:replace="~{login-layout :: head}"></head>
+<body class="authentication-body">
+<div class="authentication-wrapper">
+    <form style="width: 23rem;" class="login-container" method="post" th:attr="action=@{/account/register}" th:object="${account}">
+        <div class="container" style="font-family:arial; font-size: 19px; background-color:#f1f1f1; color: black; text-align: center;">
+            <img th:src="@{/resources/image/brand-logo.png}" alt="MoDate" />
+        </div>
+        <div class="container">
+            <div class="field-validation-error" th:errors="${account}"></div>
+            <input type="text" th:field="*{username}" placeholder="Username" required>
+            <div class="field-validation-error" th:errors="*{username}"></div>
+            <input type="password" th:field="*{password}" placeholder="Password" required>
+            <div class="field-validation-error" th:errors="*{password}"></div>
+            <select th:field="*{role}" class="dropdown" required>
+                <option th:value=null>No Specific Role</option>
+                <option th:each="option : ${roleDropdown}" th:value="${option}"
+                        th:text="${option}" th:selected="${option == role}"></option>
+            </select>
+            <div class="field-validation-error" th:errors="*{role}"></div>
+            <button type="submit">Sign Up</button>
+        </div>
+
+        <div class="container" style="background-color:#f1f1f1; color: black; text-align: end;">
+            <a th:href="@{/account/loginForm}">Click here to login</a>
+        </div>
+    </form>
+</div>
+</body>
+</html>
