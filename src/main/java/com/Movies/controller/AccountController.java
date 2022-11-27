@@ -43,13 +43,16 @@ public class AccountController {
         return "account/register-form";
     }
 
-//    @PostMapping("/register")
-//    public String register(@Valid @ModelAttribute("account") RegisterDTO dto,
-//                           BindingResult bindingResult, Model model) {
-//        if(bindingResult.hasErrors()) {
-//            registerForm(model);
-//        }
-//        accSvc.registerAccount(dto);
-//        return "redirect:/account/loginForm";
-//    }
+    @PostMapping("/register")
+    public String register(@Valid @ModelAttribute("account") CreateAccountDto dto,
+                           BindingResult bindingResult, Model model) {
+        if(bindingResult.hasErrors()) {
+            List<String> roleDropdown = dropdownSvc.getRoleList();
+            model.addAttribute("roleDropdown", roleDropdown);
+            model.addAttribute("account", dto);
+            return "account/register-form";
+        }
+        accSvc.create(dto);
+        return "redirect:/account/loginForm";
+    }
 }

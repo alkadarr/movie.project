@@ -11,6 +11,8 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
 
     Optional<Account> findByUsername(String username);
 
+    Optional<Account> findByUsernameAndRole(String username, String role);
+
     @Query(value = """
             SELECT DISTINCT acc.role
             FROM Account acc
