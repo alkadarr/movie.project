@@ -13,8 +13,8 @@
             <div class="alert alert-warning" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>
             <input type="password" th:field="*{password}" placeholder="Password">
             <div class="alert alert-warning" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
-            <select th:field="*{role}" class="dropdown">
-                <option th:value=null>No Specific Role</option>
+            <select th:field="*{role}" class="dropdown form-select" id="autoSizingSelect">
+                <option th:value=null>Choose a role...</option>
                 <option th:each="option : ${roleDropdown}" th:value="${option}"
                         th:text="${option}" th:selected="${option == role}"></option>
             </select>

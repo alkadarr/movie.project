@@ -3,7 +3,7 @@ package com.Movies.rest_controller;
 import com.Movies.dtos.reviewer.CompleteProfileDto;
 import com.Movies.services.abstraction.ReviewerService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
+//import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,15 +30,15 @@ public class ReviewerRestController {
         return service.delete(id) ? "Deleted" : "Not deleted";
     }
 
-    @PostMapping("/complete-profile")
-    public Object completeProfile(Authentication auth, @RequestBody CompleteProfileDto dto) {
-        return service.completeProfile(auth.getName(), dto);
-    }
+//    @PostMapping("/complete-profile")
+//    public Object completeProfile(Authentication auth, @RequestBody CompleteProfileDto dto) {
+//        return service.completeProfile(auth.getName(), dto);
+//    }
 
-    @PutMapping("/rate-movie")
-    public Object addRatingToMovie(Authentication auth, @RequestParam String movieId, @RequestParam Integer stars) {
-        return service.addRatingToMovie(auth.getName(), movieId, stars);
-    }
+//    @PutMapping("/rate-movie")
+//    public Object addRatingToMovie(Authentication auth, @RequestParam String movieId, @RequestParam Integer stars) {
+//        return service.addRatingToMovie(auth.getName(), movieId, stars);
+//    }
 
 
 }

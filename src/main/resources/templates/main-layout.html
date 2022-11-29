@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MoDate</title>
+    <link rel="icon" type="image/ico" th:href="@{/favicon.ico}"/>
+    <link rel="stylesheet" th:href="@{/resources/css/font-awesome.css}" />
+    <link rel="stylesheet" th:href="@{/resources/css/site.css}" />
+    <link rel="stylesheet" th:href="@{/resources/css_bs5/bootstrap.css}" />
+<!--    <link rel="stylesheet" th:href="@{/resources/css_bs5/bootstrap-grid.css}" />-->
+    <link rel="stylesheet" th:href="@{/resources/css_bs5/bootstrap.min.css}" />
+        <script th:src="@{/resources/js/jquery-3.6.0.js}"></script>
+</head>
+<body>
+    <header class="container-fluid text-auto border border-4">
+        <div class="row">
+            <div class="col-12 py-3 text-center">
+                <h1 class="display-1">
+                    <img th:src="@{/resources/image/brand-logo.png}" alt="MoDate" />
+                </h1>
+                <p class="lead">All about movie we serve wholeheartedly</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" id="navbar-custom">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <a class="navbar-brand" href="#">MoDate</a>
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Link</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                    </li>
+                </ul>
+                <form class="d-flex">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container-fluid border border-2">
+        <div class="row">
+            <div class="col-md-8">
+                Content
+            </div>
+            <div class="col-md-4 container-fluid">
+                <div class="row border"  style="margin: 16px 16px 16px 16px; height: 200px; padding: 0px 4px 2px 2px;">
+                    <div class="col-md">
+                        main aside
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="container-fluid text-white border border-4">
+        <div class="row">
+            <div class="col-12 py-3">
+                &copy; 2022 Bovlien
+            </div>
+        </div>
+    </footer>
+
+
+<script>
+
+    let nav = document.getElementById('navbar-custom');
+    if (nav){
+    window.addEventListener("scroll", (event) => {
+       let scroll = this.scrollY;
+       console.log(scroll);
+
+       if (scroll >= 213){
+            nav.classList.add('fixed-top');
+       } else {
+            nav.classList.remove('fixed-top');
+       }
+    });
+    }
+
+</script>
+</body>
+</html>

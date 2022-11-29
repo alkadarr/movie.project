@@ -24,6 +24,11 @@ public class AccountController {
     @Autowired
     private DropdownService dropdownSvc;
 
+    @GetMapping("/index")
+    public String index(Model model){
+        return "main-layout";
+    }
+
     @GetMapping("/loginForm")
     public String loginForm(Model model) {
         return "account/login-form";

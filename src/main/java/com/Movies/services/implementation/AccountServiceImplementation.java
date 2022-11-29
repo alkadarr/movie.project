@@ -7,8 +7,8 @@ import com.Movies.models.Account;
 import com.Movies.repositories.AccountRepository;
 import com.Movies.services.abstraction.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
+//import org.springframework.security.core.userdetails.UsernameNotFoundException;
+//import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -20,8 +20,8 @@ public class AccountServiceImplementation implements AccountService {
 
     @Autowired
     private AccountRepository accountRepository;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+//    @Autowired
+//    private PasswordEncoder passwordEncoder;
 
     @Override
     public List<?> getAll() {
@@ -44,7 +44,7 @@ public class AccountServiceImplementation implements AccountService {
                     dto.getUsername(),
                     dto.getPassword(),
                     dto.getRole());
-            account.setPassword(passwordEncoder.encode(account.getPassword()));
+//            account.setPassword(passwordEncoder.encode(account.getPassword()));
             accountRepository.save(account);
             return new AccountHeaderDto(account.getId(),account.getUsername(),account.getRole(),account.isEnabled() ? "Active" : "Inactive");
         }
@@ -53,16 +53,16 @@ public class AccountServiceImplementation implements AccountService {
     @Override
     public Object changePassword(String username, ChangePasswordDto dto) {
         Account user = accountRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException(String.format("Username %s tidak ditemukan", username)));
+                .orElseThrow(() -> new EntityNotFoundException(String.format("Username %s tidak ditemukan", username)));
 
-        var cekPassword = passwordEncoder.matches(dto.getOldPassword(), user.getPassword());
-        if(cekPassword){
-            user.setPassword(passwordEncoder.encode(dto.getNewPassword()));
+//        var cekPassword = passwordEncoder.matches(dto.getOldPassword(), user.getPassword());
+//        if(cekPassword){
+//            user.setPassword(passwordEncoder.encode(dto.getNewPassword()));
             accountRepository.save(user);
             return "Password changed successfully";
-        } else {
-            throw new RuntimeException("Old password is wrong");
-        }
+//        } else {
+//            throw new RuntimeException("Old password is wrong");
+//        }
     }
 
     @Override
