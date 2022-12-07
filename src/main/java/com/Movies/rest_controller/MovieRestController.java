@@ -1,5 +1,7 @@
 package com.Movies.rest_controller;
 
+import com.Movies.dtos.PageTemplate;
+import com.Movies.dtos.Response;
 import com.Movies.dtos.RestResponse;
 import com.Movies.dtos.movie.MovieDetailsDto;
 import com.Movies.dtos.movie.MovieHeaderDto;
@@ -7,12 +9,14 @@ import com.Movies.dtos.movie.MovieInsertDto;
 import com.Movies.dtos.movie.MovieUpdateDto;
 import com.Movies.services.abstraction.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api/movies")
 public class MovieRestController {
@@ -34,6 +38,29 @@ public class MovieRestController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).
                     body(new RestResponse<>(null, e.getMessage(),"500"));
         }
+    }
+
+    @GetMapping("/all-paging")
+    public ResponseEntity<Object> getMoviesPaging(
+            @RequestParam(name = "search",defaultValue = "",required = false) String search,
+            @RequestParam(name = "releaseCountry",defaultValue = "",required = false) String releaseCountry,
+            @RequestParam(name = "genreId",defaultValue = "0",required = false) Integer genreId,
+            @RequestParam(name = "page", defaultValue = "1", required = false) Integer page,
+            @RequestParam(name = "size", defaultValue = "10", required = false) Integer size,
+            @RequestParam(name = "sortBy", defaultValue = "id", required = false) String sortBy,
+            @RequestParam(name = "sortType", defaultValue = "desc", required = false) String sortType){
+        Response rest = new Response(true,"OK");
+        try {
+            PageTemplate data = (PageTemplate) service.getAllMoviesWithPagination(search, releaseCountry, page, size, sortBy, sortType);
+            rest.setData(data);
+            if (data.get_items() == null) {
+                rest.setMessage("Empty data");
+            }
+        } catch (Exception e){
+            rest.setMessage(e.getMessage());
+            rest.setData(null);
+        }
+        return ResponseEntity.ok(rest);
     }
 
     @GetMapping("/get/{id}")

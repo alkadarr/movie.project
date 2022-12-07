@@ -11,11 +11,6 @@ footer{
     background-color: #065564b0;
 }
 
-footer{
-    position: fixed;
-    bottom: 0;
-}
-
 main{
     height: 1000px;
     overflow: auto;

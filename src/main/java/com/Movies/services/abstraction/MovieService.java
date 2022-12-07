@@ -5,6 +5,7 @@ import com.Movies.dtos.movie.MovieHeaderDto;
 import com.Movies.dtos.movie.MovieInsertDto;
 import com.Movies.dtos.movie.MovieUpdateDto;
 
+import java.util.HashMap;
 import java.util.List;
 
 public interface MovieService {
@@ -12,6 +13,7 @@ public interface MovieService {
     // crud methods
 
     public List<MovieDetailsDto> getAllMovies();
+    public Object getAllMoviesWithPagination(String search,String releaseCountry, Integer page, Integer size, String sortBy, String sortType);
     public MovieDetailsDto getMovieById(String id);
     public MovieInsertDto insertMovie(MovieInsertDto movie);
     public MovieUpdateDto updateMovie(String id, MovieUpdateDto movie);

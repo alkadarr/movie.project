@@ -1,20 +1,23 @@
 package com.Movies.services.implementation;
 
-import com.Movies.dtos.movie.MovieDetailsDto;
-import com.Movies.dtos.movie.MovieHeaderDto;
-import com.Movies.dtos.movie.MovieInsertDto;
-import com.Movies.dtos.movie.MovieUpdateDto;
+import com.Movies.dtos.MetaDataDto;
+import com.Movies.dtos.PageTemplate;
+import com.Movies.dtos.movie.*;
 import com.Movies.helper.Formatter;
 import com.Movies.models.Actor;
 import com.Movies.models.Movie;
 import com.Movies.repositories.*;
 import com.Movies.services.abstraction.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -51,6 +54,44 @@ public class MovieServiceImplementation implements MovieService {
             ));
         }
         return moviesDto;
+    }
+
+    @Override
+    public Object getAllMoviesWithPagination(String search, String releaseCountry, Integer page, Integer size, String sortBy, String sortType) {
+        PageTemplate result = new PageTemplate();
+        MetaDataDto meta = new MetaDataDto();
+
+        PageRequest pagination = PageRequest.of(
+                page-1,
+                size,
+                Sort.by(Sort.Direction.fromString(sortType), sortBy));
+
+        Page<Movie> movies = movieRepository.getMovieForPage(
+                search,
+                releaseCountry,
+                pagination
+        );
+
+        List<MovieGridDto> movieGridDtos = new ArrayList<>();
+        for (var movie : movies){
+            movieGridDtos.add(
+                    new MovieGridDto(
+                            movie.getId(),movie.getTitle(),movie.getProductionYear(),
+                            movie.getDuration(),movie.getLanguage(),movie.getReleaseDate(),
+                            movie.getReleaseCountry(),movie.getRatingRate(),movie.getAllGenreTitles()
+                    )
+            );
+        }
+
+        meta.setTotalCount(movies.getTotalElements());
+        meta.setPageCount(movies.getTotalPages());
+        meta.setCurrentPage(page);
+        meta.setPerPage(size);
+
+        result.set_items(movies.getTotalPages() == 0 ? null : movieGridDtos);
+        result.set_meta(meta);
+
+        return result;
     }
 
     @Override

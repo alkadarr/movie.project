@@ -16,7 +16,7 @@
 //
 //@Configuration
 //@EnableWebSecurity                      //WebSecurityConfiguration
-//@Order(2)
+////@Order(2)
 //public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 //
 //    private final UserDetailsService userDetailsService;

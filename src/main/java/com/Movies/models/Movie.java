@@ -89,4 +89,16 @@ public class Movie {
                 .collect(Collectors.toList());
     }
 
+    public Double getRatingRate(){
+        int totalRating = 0;
+        for (Rating rating : ratings){
+            totalRating = totalRating + rating.getStars();
+        }
+        if (ratings.size() == 0){
+            return null;
+        } else {
+            return (double) (totalRating / ratings.size());
+        }
+    }
+
 }

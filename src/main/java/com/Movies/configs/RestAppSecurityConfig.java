@@ -1,37 +1,57 @@
-//package com.Movies.configs;
-//
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.context.annotation.Bean;
-//import org.springframework.context.annotation.Configuration;
-//import org.springframework.core.annotation.Order;
-//import org.springframework.security.authentication.AuthenticationManager;
-//import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-//import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-//import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-//import org.springframework.security.config.http.SessionCreationPolicy;
-//import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-//
-//@Configuration
-//@EnableWebSecurity
-//@Order(1)
-//public class RestAppSecurityConfig extends WebSecurityConfigurerAdapter {
-//
-//    @Autowired
-//    private JwtRequestFilter jwtRequestFilter;
-//
-//    @Override
-//    protected void configure(HttpSecurity http) throws Exception {
-//        http.antMatcher("/api/**").csrf().disable()
-//                .authorizeRequests()
-//                .antMatchers("/api/account/authenticate").permitAll()
-//                .anyRequest().authenticated()
-//                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//                .and().addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
-//    }
-//
+package com.Movies.configs;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.List;
+
+@Configuration
+@EnableWebSecurity
+public class RestAppSecurityConfig {
+
+    @Autowired
+    private JwtRequestFilter jwtRequestFilter;
+
+    @Bean
+    @Order(1)
+    protected SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http.antMatcher("/api/**").csrf().disable()
+                .authorizeRequests()
+                .antMatchers("/api/**").permitAll()
+                .antMatchers("/api/account/authenticate").permitAll()
+                .anyRequest().authenticated()
+                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and().cors()
+                .and().addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+        return http.build();
+    }
+
 //    @Override
 //    @Bean
 //    public AuthenticationManager authenticationManagerBean() throws Exception {
 //        return super.authenticationManagerBean();
 //    }
-//}
+
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        var configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(List.of("*"));
+        configuration.setAllowedHeaders(List.of("*"));
+        configuration.setAllowedMethods(List.of("GET","POST", "PUT", "PATCH", "DELETE"));
+        var source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
+}

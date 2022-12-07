@@ -4,4 +4,6 @@ import java.util.List;
 
 public interface DropdownService {
     public List<String> getRoleList();
+
+    public Object getReleaseCountries();
 }

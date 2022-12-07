@@ -24,7 +24,7 @@
         </div>
     </header>
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light" id="navbar-custom">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
         <div class="container-fluid">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -65,7 +65,7 @@
         </div>
     </main>
 
-    <footer class="container-fluid text-white border border-4">
+    <footer class="container-fluid text-white border border-4 sticky-bottom">
         <div class="row">
             <div class="col-12 py-3">
                 &copy; 2022 Bovlien
@@ -74,22 +74,22 @@
     </footer>
 
 
-<script>
+<!--<script>-->
 
-    let nav = document.getElementById('navbar-custom');
-    if (nav){
-    window.addEventListener("scroll", (event) => {
-       let scroll = this.scrollY;
-       console.log(scroll);
+<!--    let nav = document.getElementById('navbar-custom');-->
+<!--    if (nav){-->
+<!--    window.addEventListener("scroll", (event) => {-->
+<!--       let scroll = this.scrollY;-->
+<!--       console.log(scroll);-->
 
-       if (scroll >= 213){
-            nav.classList.add('fixed-top');
-       } else {
-            nav.classList.remove('fixed-top');
-       }
-    });
-    }
+<!--       if (scroll >= 213){-->
+<!--            nav.classList.add('fixed-top');-->
+<!--       } else {-->
+<!--            nav.classList.remove('fixed-top');-->
+<!--       }-->
+<!--    });-->
+<!--    }-->
 
-</script>
+<!--</script>-->
 </body>
 </html>
